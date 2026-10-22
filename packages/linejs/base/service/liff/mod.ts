@@ -38,7 +38,7 @@ export class LiffService implements BaseService {
 		lang?: string;
 	}): Promise<LINETypes.LiffViewResponse> {
 		const { chatMid, liffId, lang } = {
-			lang: "ja_JP",
+			lang: this.client.lang,
 			...options,
 		};
 
@@ -101,7 +101,7 @@ export class LiffService implements BaseService {
 		tryConsent?: boolean;
 	}): Promise<string> {
 		const { chatMid, liffId, lang, tryConsent } = {
-			lang: "ja_JP",
+			lang: this.client.lang,
 			tryConsent: true,
 			...options,
 		};

@@ -39,7 +39,7 @@ export class Timeline {
 			"x-line-access": this.client.authToken,
 			"content-type": "application/json; charset=UTF-8",
 			"x-line-application": this.client.request.systemType,
-			"x-lal": "ja_JP",
+			"x-lal": this.client.lang,
 			"x-lpv": "1",
 		};
 	}

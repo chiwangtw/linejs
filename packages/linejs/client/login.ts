@@ -26,6 +26,12 @@ export interface InitOptions {
 	endpoint?: string;
 
 	/**
+	 * Locale sent as the `x-lal` header (e.g. "zh_TW")
+	 * @default "ja_JP"
+	 */
+	lang?: string;
+
+	/**
 	 * Device
 	 */
 	device: Device;
@@ -57,6 +63,7 @@ const createBaseClient = (init: InitOptions) =>
 		device: init.device,
 		version: init.version,
 		endpoint: init.endpoint,
+		lang: init.lang,
 		storage: init.storage,
 		legy: init.legy,
 	});

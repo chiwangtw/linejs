@@ -292,7 +292,7 @@ export class RequestClient {
 			"user-agent": this.userAgent,
 			"x-line-application": this.systemType,
 			"content-type": "application/x-thrift",
-			"x-lal": "ja_JP",
+			"x-lal": this.client.lang,
 			"x-lpv": "1",
 			"x-lhm": overrideMethod,
 			"accept-encoding": "gzip",

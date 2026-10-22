@@ -67,6 +67,12 @@ export interface ClientInit {
 	endpoint?: string;
 
 	/**
+	 * Locale sent as the `x-lal` header (e.g. "zh_TW")
+	 * @default "ja_JP"
+	 */
+	lang?: string;
+
+	/**
 	 * Device
 	 */
 	device: Device;
@@ -144,6 +150,7 @@ export class BaseClient extends TypedEventEmitter<ClientEvents> {
 	config: Config;
 	readonly deviceDetails: DeviceDetails;
 	readonly endpoint: string;
+	readonly lang: string;
 	readonly legy: {
 		encrypted: boolean | "auto";
 		endpoint?: string;
@@ -182,6 +189,7 @@ export class BaseClient extends TypedEventEmitter<ClientEvents> {
 		}
 		this.deviceDetails = deviceDetails;
 		this.endpoint = init.endpoint ?? "legy.line-apps.com";
+		this.lang = init.lang ?? "ja_JP";
 		this.config = {
 			timeout: 30_000,
 			longTimeout: 180_000,
