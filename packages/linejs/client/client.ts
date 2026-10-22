@@ -310,10 +310,15 @@ export class Client extends TypedEventEmitter<ClientEvents> {
 		});
 		if (!userFriendMids?.length) return [];
 		try {
-			const res = await this.base.relation.getContactsV3({
-				mids: userFriendMids,
-			});
-			return res.responses.map((raw) => new User({ client: this, raw }));
+			// The server rejects batches over 100 mids ({"ere":{"max_size":100}}).
+			const out: User[] = [];
+			for (let i = 0; i < userFriendMids.length; i += 100) {
+				const res = await this.base.relation.getContactsV3({
+					mids: userFriendMids.slice(i, i + 100),
+				});
+				out.push(...res.responses.map((raw) => new User({ client: this, raw })));
+			}
+			return out;
 		} catch (e) {
 			if (!isApiNotCapable(e)) throw e;
 		}
