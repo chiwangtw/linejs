@@ -297,10 +297,15 @@ export class Client extends TypedEventEmitter<ClientEvents> {
 			},
 			syncReason: "INTERNAL",
 		});
-		const { chats } = await this.base.talk.getChats({
-			chatMids: joined.memberChatMids,
-		});
-		return chats.map((raw) => new Chat({ client: this, raw }));
+		// getChats rejects more than 100 mids per call (INVALID_LENGTH, LIMIT 100).
+		const out: Chat[] = [];
+		for (let i = 0; i < joined.memberChatMids.length; i += 100) {
+			const { chats } = await this.base.talk.getChats({
+				chatMids: joined.memberChatMids.slice(i, i + 100),
+			});
+			out.push(...chats.map((raw) => new Chat({ client: this, raw })));
+		}
+		return out;
 	}
 
 	/** Fetches all friends. V3→V2→getUser fallback for #71. */
